@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -15,11 +15,16 @@ export class User {
 
   @Column({ length: 100, unique: true })
   email: string;
+
   @Column({ length: 100 })
   password: string;
+
   @Column({ type: 'boolean', default: false })
   active: boolean;
 
-  @CreateDateColumn()
+  @Column({ type: 'uuid', unique: true, name: 'activation_token' })
+  activationtoken: string;
+
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 }
