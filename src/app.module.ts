@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'root',
       password: '',
       database: 'db_nest_autenticate',
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
     AuthModule,
