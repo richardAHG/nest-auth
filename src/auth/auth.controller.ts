@@ -12,7 +12,7 @@ export class AuthController {
     return this._authService.createUser(payload);
   }
 
-  @Post()
+  @Post('/login')
   login(@Body() logindto: LoginDto): Promise<string> {
     return this._authService.login(logindto);
   }
