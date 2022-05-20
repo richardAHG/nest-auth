@@ -2,14 +2,15 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { use } from 'passport';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
-  async createUser(name, email, password): Promise<void> {
-    const user = this.create({ name, email, password });
+  async createUser(name, email, password, activationtoken): Promise<void> {
+    const user = this.create({ name, email, password, activationtoken });
 
     try {
       await this.save(user);
@@ -23,5 +24,10 @@ export class UsersRepository extends Repository<User> {
 
   async findOneByEmail(email: string): Promise<User> {
     return this.findOne({ email });
+  }
+
+  async activateUser(user: User): Promise<void> {
+    user.active = true;
+    this.save(user);
   }
 }
