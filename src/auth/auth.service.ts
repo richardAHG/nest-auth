@@ -39,11 +39,8 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
-    const user = await this._userRepositroy.findOneByEmail(email);
-    if (
-      email &&
-      (await this._helpercEncoder.checkPassword(password, user.password))
-    ) {
+    const user: User = await this._userRepositroy.findOneByEmail(email);
+    if (await this._helpercEncoder.checkPassword(password, user.password)) {
       const payload: JwtPayloadInterface = {
         id: user.id,
         email,
@@ -71,5 +68,11 @@ export class AuthService {
 
   async requestResetPassword(
     resetPasswordDto: RequestResetPasswordDto,
-  ): Promise<void> {}
+  ): Promise<void> {
+    const { email } = resetPasswordDto;
+    const user: User = await this._userRepositroy.findOneByEmail(email);
+    user.resetPasswordtoken = v4();
+    this._userRepositroy.save(user);
+    //FIXME: AGREGAR FUNCION DE ENVIO DE CORREO PARA EL USUARIO
+  }
 }
