@@ -6,6 +6,6 @@ export class ResetPasswordDto {
   resetPasswordToken: string;
 
   @IsNotEmpty()
-  @Length(26, 20)
+  @Length(6, 20)
   password: string;
 }

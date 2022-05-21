@@ -25,15 +25,15 @@ export class AuthController {
     return this._authService.activateUser(activateUserDto);
   }
 
-  @Post('/request-reset-password')
+  @Patch('/request-reset-password')
   requestresetPassword(
     @Body() requestResetPasswordDto: RequestResetPasswordDto,
   ): Promise<void> {
     return this._authService.requestResetPassword(requestResetPasswordDto);
   }
 
-  @Patch()
-  resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
+  @Patch('/reset-password')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<void> {
     return this._authService.resetPassword(resetPasswordDto);
   }
 }

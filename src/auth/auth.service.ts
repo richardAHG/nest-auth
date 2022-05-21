@@ -68,16 +68,22 @@ export class AuthService {
   }
 
   async requestResetPassword(
-    resetPasswordDto: RequestResetPasswordDto,
+    requestResetPasswordDto: RequestResetPasswordDto,
   ): Promise<void> {
-    const { email } = resetPasswordDto;
+    const { email } = requestResetPasswordDto;
     const user: User = await this._userRepositroy.findOneByEmail(email);
-    user.resetPasswordtoken = v4();
+    user.resetPasswordToken = v4();
     this._userRepositroy.save(user);
     //FIXME: AGREGAR FUNCION DE ENVIO DE CORREO PARA EL USUARIO
   }
 
-  async resetPassword(resetPasswordDto:ResetPasswordDto):Promise<void>{
-    
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
+    const { resetPasswordToken, password } = resetPasswordDto;
+    const user: User = await this._userRepositroy.findOnebyResetPasswordToken(
+      resetPasswordToken,
+    );
+    user.password = await this._helpercEncoder.encoderPasword(password);
+    user.resetPasswordToken = null;
+    this._userRepositroy.save(user);
   }
 }
