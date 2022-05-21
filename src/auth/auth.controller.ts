@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ActivateUserDto } from './dto/activate-user.dto';
 import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +26,14 @@ export class AuthController {
   }
 
   @Post('/request-reset-password')
-  resetPassword(@Body() resetPassword: RequestResetPasswordDto): Promise<void> {
-    return this._authService.requestResetPassword(resetPassword);
+  requestresetPassword(
+    @Body() requestResetPasswordDto: RequestResetPasswordDto,
+  ): Promise<void> {
+    return this._authService.requestResetPassword(requestResetPasswordDto);
+  }
+
+  @Patch()
+  resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
+    return this._authService.resetPassword(resetPasswordDto);
   }
 }

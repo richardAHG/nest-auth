@@ -31,7 +31,7 @@ export class User {
     nullable: true,
     name: 'reset_password_token',
   })
-  resetPasswordtoken: string;
+  resetPasswordToken: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -15,6 +15,7 @@ import { UsersRepository } from './users.repository';
 import { ActivateUserDto } from './dto/activate-user.dto';
 import { User } from './user.entity';
 import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -74,5 +75,9 @@ export class AuthService {
     user.resetPasswordtoken = v4();
     this._userRepositroy.save(user);
     //FIXME: AGREGAR FUNCION DE ENVIO DE CORREO PARA EL USUARIO
+  }
+
+  async resetPassword(resetPasswordDto:ResetPasswordDto):Promise<void>{
+    
   }
 }
