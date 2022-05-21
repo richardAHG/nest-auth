@@ -2,7 +2,7 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { use } from 'passport';
+
 import { EntityRepository, Repository } from 'typeorm';
 
 import { User } from './user.entity';

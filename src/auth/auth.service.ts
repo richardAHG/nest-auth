@@ -14,6 +14,7 @@ import { JwtPayloadInterface } from './jwt-payload.interface';
 import { UsersRepository } from './users.repository';
 import { ActivateUserDto } from './dto/activate-user.dto';
 import { User } from './user.entity';
+import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -67,4 +68,8 @@ export class AuthService {
     }
     this._userRepositroy.activateUser(user);
   }
+
+  async requestResetPassword(
+    resetPasswordDto: RequestResetPasswordDto,
+  ): Promise<void> {}
 }
