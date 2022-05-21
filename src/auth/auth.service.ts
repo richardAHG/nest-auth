@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 } from 'uuid';
@@ -8,6 +12,8 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtPayloadInterface } from './jwt-payload.interface';
 import { UsersRepository } from './users.repository';
+import { ActivateUserDto } from './dto/activate-user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
@@ -46,5 +52,19 @@ export class AuthService {
       return { accessToken };
     }
     throw new UnauthorizedException('Please check your credentials');
+  }
+
+  async activateUser(activeUserDto: ActivateUserDto): Promise<void> {
+    const { id, code } = activeUserDto;
+    const user: User =
+      await this._userRepositroy.findOneInactiveByIdAndActivationToken(
+        id,
+        code,
+      );
+
+    if (!user) {
+      throw new UnprocessableEntityException('this action can no t be done');
+    }
+    this._userRepositroy.activateUser(user);
   }
 }

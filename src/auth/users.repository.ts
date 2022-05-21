@@ -30,4 +30,11 @@ export class UsersRepository extends Repository<User> {
     user.active = true;
     this.save(user);
   }
+
+  async findOneInactiveByIdAndActivationToken(
+    id: string,
+    code: string,
+  ): Promise<User> {
+    return this.findOne({ id: id, activationtoken: code, active: false });
+  }
 }
